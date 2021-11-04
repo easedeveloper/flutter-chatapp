@@ -1,6 +1,9 @@
+import 'package:chatapp/helpers/mostrar_alert_helpers.dart';
+import 'package:chatapp/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 import 'package:chatapp/widgets/widgets.dart';
+import 'package:provider/provider.dart';
 
 class RegisterPage extends StatelessWidget {
 
@@ -52,6 +55,9 @@ class __FormularioState extends State<_Formulario> {
 
   @override
   Widget build(BuildContext context) {
+
+    final authService = Provider.of<Authservice>(context);
+
     return Container(
       margin: EdgeInsets.only(top: 40),
       padding: EdgeInsets.symmetric( horizontal: 50),
@@ -79,8 +85,23 @@ class __FormularioState extends State<_Formulario> {
           ),
           
           BotonAzul(
-            text: 'Ingrese',
-            onPressed: (){
+            text: 'Crear Cuenta',
+            onPressed: authService.authenticando ? null : () async {
+              
+              final registroOK = await authService.register(
+                nameCrtl.text.trim(),
+                emailCrtl.text.trim(), 
+                passCrtl.text.trim(),
+              );
+
+              if ( registroOK == true ) {
+                //Conectar al Socket server
+                Navigator.pushReplacementNamed(context, 'usuarios');
+              }else{
+                mostrarAlerta(context, 'Registro Incorrecto', registroOK);
+              }
+
+              print(nameCrtl.text);
               print(emailCrtl.text);
               print(passCrtl.text);
             }

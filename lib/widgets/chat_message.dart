@@ -39,7 +39,7 @@ class ChatMessage extends StatelessWidget {
         margin: EdgeInsets.only(bottom: 5, left: 50, right: 5),
         padding: EdgeInsets.all(8.0),
 
-        child: Text( this.texto!, style: TextStyle(color: Colors.white), ),
+        child: Text( this.texto, style: TextStyle(color: Colors.white), ),
         decoration: BoxDecoration(
           color: Color(0xff4D9EF6),
           borderRadius: BorderRadius.circular(20)
@@ -55,7 +55,7 @@ class ChatMessage extends StatelessWidget {
         margin: EdgeInsets.only(bottom: 5, left: 5, right: 50),
         padding: EdgeInsets.all(8.0),
 
-        child: Text( this.texto!, style: TextStyle(color: Colors.black87), ),
+        child: Text( this.texto, style: TextStyle(color: Colors.black87), ),
         decoration: BoxDecoration(
           color: Color(0xffE4E5E8),
           borderRadius: BorderRadius.circular(20)

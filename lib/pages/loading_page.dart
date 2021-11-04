@@ -1,6 +1,9 @@
+import 'package:chatapp/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
+import 'package:chatapp/helpers/mostrar_alert_helpers.dart';
 import 'package:chatapp/widgets/widgets.dart';
+import 'package:provider/provider.dart';
 
 class LoadingPage extends StatelessWidget {
 
@@ -51,6 +54,9 @@ class __FormularioState extends State<_Formulario> {
 
   @override
   Widget build(BuildContext context) {
+
+    final authService = Provider.of<Authservice>(context);
+
     return Container(
       margin: EdgeInsets.only(top: 40),
       padding: EdgeInsets.symmetric( horizontal: 50),
@@ -72,9 +78,31 @@ class __FormularioState extends State<_Formulario> {
           
           BotonAzul(
             text: 'Ingrese',
-            onPressed: (){
-              print(emailCrtl.text);
-              print(passCrtl.text);
+            onPressed: authService.authenticando ? null : () async{
+              FocusScope.of(context).unfocus();
+              //nos servira para poder ocultar el teclado una vez que ya se autentico
+
+              final loginOK = await authService.login(emailCrtl.text.trim(), passCrtl.text.trim());
+
+              if ( loginOK! ) {
+                //Connectar a nuestro socket server
+                
+                //Navegar a otra Pantalla
+                Navigator.pushReplacementNamed(context, 'usuarios');
+                  //usando pushReplacementNamed, lo hago para que no puedan regresar a mi LOGIN
+
+              }else{
+                //Mostrar la Alerta
+                mostrarAlerta(
+                  context,
+                  'Login Incorrecto',
+                  'Revise sus crendenciales'
+                );
+              }
+
+              // //trim() para que se haya espacios en blanco
+              // print(emailCrtl.text);
+              // print(passCrtl.text);
             }
           )
         ],
