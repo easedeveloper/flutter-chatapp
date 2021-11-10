@@ -1,5 +1,6 @@
 import 'package:chatapp/helpers/mostrar_alert_helpers.dart';
 import 'package:chatapp/services/auth_service.dart';
+import 'package:chatapp/services/socket_service.dart';
 import 'package:flutter/material.dart';
 
 import 'package:chatapp/widgets/widgets.dart';
@@ -57,6 +58,7 @@ class __FormularioState extends State<_Formulario> {
   Widget build(BuildContext context) {
 
     final authService = Provider.of<Authservice>(context);
+    final socketService = Provider.of<SocketService>(context);
 
     return Container(
       margin: EdgeInsets.only(top: 40),
@@ -96,9 +98,11 @@ class __FormularioState extends State<_Formulario> {
 
               if ( registroOK == true ) {
                 //Conectar al Socket server
+                socketService.connect();
+
                 Navigator.pushReplacementNamed(context, 'usuarios');
               }else{
-                mostrarAlerta(context, 'Registro Incorrecto', registroOK);
+                mostrarAlerta(context, 'Registro Incorrecto', 'Revice sus credenciales');
               }
 
               print(nameCrtl.text);
